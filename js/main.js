@@ -157,7 +157,9 @@
     var path = window.location.pathname || "/";
     if (path === "" || path === "/" || path === "/index.html") return "home";
     var file = path.substring(path.lastIndexOf("/") + 1).toLowerCase();
-    if (file === "index.html") return "home";
+    /* An empty trailing segment means a directory index: either the site root
+       or a sub-directory (e.g. "/zelinmy.com/" on GitHub Pages). */
+    if (file === "" || file === "index.html") return "home";
     if (file === "404.html") return "";
     return file.replace(".html", "");
   }
