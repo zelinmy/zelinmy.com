@@ -1,0 +1,15 @@
+# Build inputs — the original brief and the replacement table.
+# They are not part of the deployed site and reference the pre-replacement
+# company details, so they stay out of the public repository.
+SPEC.txt
+tihuan.txt
+
+# Local development helpers — never deployed, and .htaccess already denies them.
+preview-server.mjs
+dev/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp

@@ -1,0 +1,128 @@
+# ============================================================================
+# Zelin Trading Co., Limited — Apache configuration
+# ============================================================================
+
+Options -Indexes
+DirectoryIndex index.html
+AddDefaultCharset UTF-8
+
+# ----------------------------------------------------------------------------
+# Force HTTPS
+# ----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Permanent redirects
+# ----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  # /index.html -> /  (301)
+  RewriteCond %{THE_REQUEST} \s/+(.+?)/index\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # /index.html anywhere -> /  (301)
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  # Canonical host, lowercase scheme
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # Strip trailing slash from file paths (e.g. /services.html/ -> /services.html)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Custom error pages
+# ----------------------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------------
+# Compression
+# ----------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+  BrowserMatch \bMSIE\s!no-gzip .*gzip
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Browser caching
+# ----------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 week"
+
+  ExpiresByType text/html                 "access plus 1 hour"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType application/json          "access plus 1 year"
+  ExpiresByType application/xml           "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/x-icon             "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+</IfModule>
+
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|svg|webp|ico|woff2?)$">
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+
+<FilesMatch "\.(html|xml|txt)$">
+  Header set Cache-Control "public, max-age=3600, must-revalidate"
+</FilesMatch>
+
+# ----------------------------------------------------------------------------
+# Security headers
+# ----------------------------------------------------------------------------<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(self), camera=(), microphone=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# MIME types
+# ----------------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/svg+xml .svg
+  AddType application/manifest+json .webmanifest
+  AddType font/woff2 .woff2
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Development-only helpers — never expose them publicly
+# ----------------------------------------------------------------------------
+<Files "preview-server.mjs">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</Files>
+
+<Files "launcher-stub.html">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</Files>
+
+# the /dev folder holds local tooling only
+RedirectMatch 404 ^/dev/
