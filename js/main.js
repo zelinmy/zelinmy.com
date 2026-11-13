@@ -42,11 +42,11 @@
   })();
 
   var NAV = [
-    { label: "Home", href: "/", key: "home" },
-    { label: "Services", href: "/services.html", key: "services" },
-    { label: "Culture", href: "/culture.html", key: "culture" },
-    { label: "News", href: "/news.html", key: "news" },
-    { label: "Contact", href: "/contact.html", key: "contact" }
+    { label: "Home", href: "./", key: "home" },
+    { label: "Services", href: "services.html", key: "services" },
+    { label: "Culture", href: "culture.html", key: "culture" },
+    { label: "News", href: "news.html", key: "news" },
+    { label: "Contact", href: "contact.html", key: "contact" }
   ];
 
   /* ---------------------------------------------------------------------
@@ -192,14 +192,14 @@
     host.className = "site-header";
     host.innerHTML =
       '<div class="container site-header__inner">' +
-        '<a class="brand" href="/" aria-label="' + SITE.company + ' — home">' +
+        '<a class="brand" href="./" aria-label="' + SITE.company + ' — home">' +
           icon("logo", "brand__mark") +
           '<span><span class="brand__name"><span>ZELIN</span><span>TRADING</span></span>' +
           '<span class="brand__sub">Hong Kong</span></span>' +
         "</a>" +
         '<nav class="site-nav" aria-label="Primary">' + links + "</nav>" +
         '<div class="header__actions">' +
-          '<a class="btn btn--primary btn--sm" href="/services.html#app">Get the App' + icon("arrow-right") + "</a>" +
+          '<a class="btn btn--primary btn--sm" href="services.html#app">Get the App' + icon("arrow-right") + "</a>" +
           '<button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-nav">' +
             icon("menu", "icon-menu") + icon("close", "icon-close") +
           "</button>" +
@@ -207,7 +207,7 @@
       "</div>" +
       '<div class="mobile-nav" id="mobile-nav">' +
         '<div class="container">' + mobileLinks +
-          '<a class="btn btn--primary btn--block mt-5" href="/services.html#app">Get the App' + icon("arrow-right") + "</a>" +
+          '<a class="btn btn--primary btn--block mt-5" href="services.html#app">Get the App' + icon("arrow-right") + "</a>" +
         "</div>" +
       "</div>";
   }
@@ -226,7 +226,7 @@
       '<div class="speedlines" aria-hidden="true"></div>' +
       '<div class="container site-footer__grid">' +
         '<div class="footer-brand">' +
-          '<a class="brand" href="/">' + icon("logo", "brand__mark") +
+          '<a class="brand" href="./">' + icon("logo", "brand__mark") +
             '<span><span class="brand__name"><span>ZELIN</span><span>TRADING</span></span>' +
             '<span class="brand__sub">Hong Kong</span></span></a>' +
           "<p>Wholesale, retail, import and export, business information consultation and supporting supply chain services — operated from Hong Kong for customers worldwide.</p>" +
@@ -258,9 +258,9 @@
       '<div class="container site-footer__bottom">' +
         "<span>&copy; " + year + " " + SITE.company + ". All rights reserved.</span>" +
         '<div class="footer-legal">' +
-          '<a href="/privacy.html">Privacy Policy</a>' +
-          '<a href="/terms.html">Terms of Service</a>' +
-          '<a href="/contact.html">Contact</a>' +
+          '<a href="privacy.html">Privacy Policy</a>' +
+          '<a href="terms.html">Terms of Service</a>' +
+          '<a href="contact.html">Contact</a>' +
         "</div>" +
       "</div>";
   }
